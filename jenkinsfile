@@ -2,14 +2,15 @@ pipeline {
     agent any
 
     stages {
-        stage('Clone Repository') {
+        stage('Checkout') {
             steps {
-                git branch: 'deploy-docker', url: 'https://github.com/yourusername/your-repo.git'
+                git branch: 'deploy-docker', url: 'https://github.com/GAUTAM7978/Task4-2.0.git'
             }
         }
+
         stage('Run Ansible Playbook') {
             steps {
-                sh 'ansible-playbook -i inventory web-deploy.yml'
+                sh 'ansible-playbook -i inventory playbook.yml'
             }
         }
     }
