@@ -1,0 +1,31 @@
+---
+- name: Deploy Dockerized Web App
+  hosts: web
+  become: yes  # Run tasks with sudo
+
+  tasks:
+    - name: Ensure Docker is installed
+      apt:
+        name: docker.io
+        state: present
+        update_cache: yes
+
+    - name: Start and enable Docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Pull nginx Docker image
+      docker_image:
+        name: nginx
+        source: pull
+
+    - name: Run nginx container
+      docker_container:
+        name: web_nginx
+        image: nginx
+        ports:
+          - "80:80"
+        state: started
+        restart_policy: always
